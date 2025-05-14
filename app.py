@@ -123,7 +123,7 @@ if st.button("🚀 Generate Next Suggestions"):
             new_recs.append(new_pos)
 
     st.session_state.recommenders = new_recs
-    st.experimental_rerun()
+    st.rerun()
 
 # === Finalize Playlist ===
 if st.button("✅ Finalize Playlist"):
