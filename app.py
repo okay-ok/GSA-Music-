@@ -39,7 +39,7 @@ if not os.path.exists("data.csv"):
 def load_data():
     st.write("Files in working directory:", os.listdir("."))
 
-    df = pd.read_csv("spotify_dataset.csv")
+    df = pd.read_csv("SpotifyFeatures.csv")
     feature_cols = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness',
                     'liveness', 'valence', 'tempo', 'duration_ms', 'loudness']
     df = df.dropna(subset=feature_cols + ['name'])
