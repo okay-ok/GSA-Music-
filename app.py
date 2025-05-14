@@ -42,7 +42,7 @@ def load_data():
     df = pd.read_csv("SpotifyFeatures.csv")
     feature_cols = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness',
                     'liveness', 'valence', 'tempo', 'duration_ms', 'loudness']
-    df = df.dropna(subset=feature_cols + ['name'])
+    df = df.dropna(subset=feature_cols + ['track_name'])
     df = df.reset_index(drop=True)
     return df, feature_cols
 
@@ -65,7 +65,7 @@ for rec in st.session_state.recommenders:
 st.subheader("Rate These Songs to Tune Your Playlist")
 rating_inputs = []
 for i, (idx, song) in enumerate(recs):
-    st.markdown(f"**Recommender {i+1}:** {song['name']} ({song['artists'] if 'artists' in song else 'N/A'})")
+    st.markdown(f"**Recommender {i+1}:** {song['track_name']} ({song['artist_name'] if 'artist_name' in song else 'N/A'})")
     rating = st.slider(f"Rate this song (Recommender {i+1})", 0, 10, 5, key=f"rating_{i}")
     rating_inputs.append((rating, idx))
 
