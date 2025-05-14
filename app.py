@@ -100,6 +100,7 @@ for i, (idx, song) in enumerate(recs):
         rating_inputs.append((rating, idx))
 
 # === Update Recommenders Using GSA ===
+
 if st.button("🚀 Generate Next Suggestions"):
     fitness = np.array([r for r, _ in rating_inputs])
     rated_vectors = np.array([song_features[i] for _, i in rating_inputs])
@@ -121,13 +122,13 @@ if st.button("🚀 Generate Next Suggestions"):
             velocity = np.random.rand(len(feature_cols)) * accel
             new_pos = st.session_state.recommenders[i] + velocity
             new_recs.append(new_pos)
-
+            
     st.session_state.recommenders = new_recs
     st.rerun()
 
 # === Finalize Playlist ===
 if st.button("✅ Finalize Playlist"):
     playlist = [df.iloc[i]["track_name"] for _, i in rating_inputs if _ > 0]
-    st.success("🎵 Your Final Playlist:")
+    st.success("🎵 Your Last Selected Songs:")
     for track in playlist:
         st.markdown(f"- {track}")
