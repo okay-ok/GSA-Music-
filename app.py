@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics.pairwise import euclidean_distances
 
 st.set_page_config(page_title="GSA Music Playlist Recommender", layout="centered")
-st.title("\ud83c\udfb6 GSA-based Spotify Playlist Generator")
+st.title("GSA-based Spotify Playlist Generator")
 
 
 KAGGLE_USERNAME = st.secrets["KAGGLE_USERNAME"]
@@ -96,6 +96,6 @@ if st.button("Generate Next Suggestions"):
 
 if st.button("Finalize Playlist"):
     playlist = [df.iloc[i]["name"] for _, i in rating_inputs if _ > 0]
-    st.success("\ud83c\udfb6 Your Final Playlist:")
+    st.success("Your Final Playlist:")
     for track in playlist:
         st.markdown(f"- {track}")
