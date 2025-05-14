@@ -26,7 +26,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-colored_header("🎶 GSA-based Spotify Playlist Generator", description="Rate songs to build your perfect playlist!", color_name="spring green")
+colored_header("🎶 GSA-based Spotify Playlist Generator", description="Rate songs to build your perfect playlist!", color_name="green-70")
 
 # === Download and Extract Dataset from Kaggle ===
 KAGGLE_USERNAME = st.secrets["KAGGLE_USERNAME"]
@@ -48,17 +48,16 @@ if not os.path.exists("spotify_dataset.csv"):
             path='.', 
             unzip=True
         )
-        st.success("✅ Spotify dataset downloaded and extracted!")
+        st.success("Spotify dataset downloaded and extracted!")
     except Exception as e:
-        st.error(f"❌ Failed to download dataset: {str(e)}")
+        st.error(f"Failed to download dataset: {str(e)}")
 
 # === Load and Prepare Data ===
 @st.cache_data
-
 def load_data():
     file_candidates = [f for f in os.listdir(".") if f.endswith(".csv")]
     if not file_candidates:
-        st.error("❌ No CSV file found after download!")
+        st.error("No CSV file found after download!")
         return None, []
     df = pd.read_csv(file_candidates[0])
     feature_cols = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness',
