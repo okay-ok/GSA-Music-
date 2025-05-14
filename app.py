@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import euclidean_distances
 import random
 
 st.set_page_config(page_title="GSA Music Playlist Recommender", layout="centered")
-st.title("\ud83c\udfb6 Spring Vibes Playlist Recommender")
+st.title(" Spring Vibes Playlist Recommender")
 
 # === Styling with Spring Colors === #
 st.markdown("""
@@ -95,6 +95,6 @@ if st.button("Generate Next Suggestions"):
 # === Playlist Button === #
 if st.button("Finalize Playlist"):
     playlist = [df.iloc[i]["track.title"] for _, i in rating_inputs if _ > 0]
-    st.success("\ud83c\udfb6 Your Playlist:")
+    st.success(" Your Playlist:")
     for track in playlist:
         st.markdown(f"- {track}")
