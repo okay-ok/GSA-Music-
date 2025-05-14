@@ -37,7 +37,7 @@ if not os.path.exists("data.csv"):
 @st.cache_data
 
 def load_data():
-    st.write(\"📂 Files in working directory:\", os.listdir(\"."))
+    st.write(\"Files in working directory:\", os.listdir(\"."))
 
     df = pd.read_csv("spotify_dataset.csv")
     feature_cols = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness',
