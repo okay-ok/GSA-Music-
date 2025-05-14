@@ -12,7 +12,7 @@ st.set_page_config(page_title="GSA Music Playlist Recommender", layout="centered
 st.markdown("""
     <style>
     .stSlider > div[data-baseweb="slider"] > div {
-        background: linear-gradient(90deg, #D4F1F4, #75E6DA, #189AB4);
+        background: linear-gradient(90deg, #DD0000, #75E6DA, #189AB4);
         border-radius: 0.1rem;
         padding: 0.1rem;
     }
