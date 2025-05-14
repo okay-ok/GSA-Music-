@@ -62,7 +62,7 @@ def load_data():
     df = pd.read_csv(file_candidates[0])
     feature_cols = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness',
                     'liveness', 'valence', 'tempo', 'duration_ms', 'loudness']
-    df = df.dropna(subset=feature_cols + ['name'])
+    df = df.dropna(subset=feature_cols + ['track_name'])
     df = df.reset_index(drop=True)
     return df, feature_cols
 
@@ -95,7 +95,7 @@ rating_inputs = []
 
 for i, (idx, song) in enumerate(recs):
     with st.container():
-        st.markdown(f"**🎵 Recommender {i+1}:** {song['name']} — *{song['artists'] if 'artists' in song else 'N/A'}*")
+        st.markdown(f"**🎵 Recommender {i+1}:** {song['track_name']} — *{song['artist_name'] if 'artist_name' in song else 'N/A'}*")
         rating = st.slider("Rating (0-10)", 0, 10, 5, key=f"rating_{i}")
         rating_inputs.append((rating, idx))
 
@@ -127,7 +127,7 @@ if st.button("🚀 Generate Next Suggestions"):
 
 # === Finalize Playlist ===
 if st.button("✅ Finalize Playlist"):
-    playlist = [df.iloc[i]["name"] for _, i in rating_inputs if _ > 0]
+    playlist = [df.iloc[i]["track_name"] for _, i in rating_inputs if _ > 0]
     st.success("🎵 Your Final Playlist:")
     for track in playlist:
         st.markdown(f"- {track}")
