@@ -13,8 +13,8 @@ st.markdown("""
     <style>
     .stSlider > div[data-baseweb="slider"] > div {
         background: linear-gradient(90deg, #D4F1F4, #75E6DA, #189AB4);
-        border-radius: 1rem;
-        padding: 0.5rem;
+        border-radius: 0.1rem;
+        padding: 0.1rem;
     }
     .duplicate-warning {
         background-color: #FFF3CD;
