@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics.pairwise import euclidean_distances
-import random
+import os
 
 st.set_page_config(page_title="GSA Music Playlist Recommender", layout="centered")
-st.title(" Spring Vibes Playlist Recommender")
+st.title("\ud83c\udfb6 Spring Vibes Playlist Recommender")
 
 # === Styling with Spring Colors === #
 st.markdown("""
@@ -30,25 +30,23 @@ st.markdown("""
 @st.cache_data
 
 def load_data():
-    url = "https://raw.githubusercontent.com/mdeff/fma/master/data/fma_metadata/tracks.csv"
-    df = pd.read_csv(url, skiprows=1, low_memory=False)
-    df = df[df["track.genre_top"].notnull()]  # remove NaNs
-    df = df[["track.id", "track.title", "track.genre_top", "track.duration"]]
-    df = df.dropna()
-    df = df.drop_duplicates()
-    return df.reset_index(drop=True)
+    df = pd.read_csv("data.csv")  # Pre-downloaded Spotify dataset
+    feature_cols = ['danceability', 'energy', 'speechiness', 'acousticness', 'instrumentalness',
+                    'liveness', 'valence', 'tempo', 'duration_ms', 'loudness']
+    df = df.dropna(subset=feature_cols + ['name'])
+    df = df.reset_index(drop=True)
+    return df, feature_cols
 
-df = load_data()
+df, feature_cols = load_data()
 
-# === Fake Feature Generation for Songs === #
-np.random.seed(42)
-song_features = np.random.rand(len(df), 10)  # each song is a 10D point
+# === Feature Matrix === #
+song_features = df[feature_cols].values
 scaler = StandardScaler()
 song_features = scaler.fit_transform(song_features)
 
 # === Initialize Recommenders === #
 if "recommenders" not in st.session_state:
-    st.session_state.recommenders = [np.random.rand(10) for _ in range(5)]  # 5 recommenders
+    st.session_state.recommenders = [np.random.rand(len(feature_cols)) for _ in range(5)]  # 5 recommenders
 
 # === Recommend Songs === #
 recs = []
@@ -60,7 +58,7 @@ for rec in st.session_state.recommenders:
 st.subheader("Your Spring Playlist Picks")
 rating_inputs = []
 for i, (idx, song) in enumerate(recs):
-    st.markdown(f"**Recommender {i+1}:** {song['track.title']} ({song['track.genre_top']})")
+    st.markdown(f"**Recommender {i+1}:** {song['name']} ({song['artists'] if 'artists' in song else 'N/A'})")
     rating = st.slider(f"Rate this song (Recommender {i+1})", 0, 10, 5, key=f"rating_{i}")
     rating_inputs.append((rating, idx))
 
@@ -77,15 +75,15 @@ if st.button("Generate Next Suggestions"):
     new_recs = []
     for i, (rate, _) in enumerate(rating_inputs):
         if rate == 0:
-            new_recs.append(mean_point + 0.1 * np.random.randn(10))
+            new_recs.append(mean_point + 0.1 * np.random.randn(len(feature_cols)))
         else:
-            force = np.zeros(10)
+            force = np.zeros(len(feature_cols))
             for j, m in enumerate(masses):
                 if i != j:
                     dist = np.linalg.norm(st.session_state.recommenders[i] - rated_vectors[j]) + 1e-6
                     force += m * (rated_vectors[j] - st.session_state.recommenders[i]) / dist
             accel = force / (masses[i] + 1e-6)
-            velocity = np.random.rand(10) * accel
+            velocity = np.random.rand(len(feature_cols)) * accel
             new_pos = st.session_state.recommenders[i] + velocity
             new_recs.append(new_pos)
 
@@ -94,7 +92,7 @@ if st.button("Generate Next Suggestions"):
 
 # === Playlist Button === #
 if st.button("Finalize Playlist"):
-    playlist = [df.iloc[i]["track.title"] for _, i in rating_inputs if _ > 0]
-    st.success(" Your Playlist:")
+    playlist = [df.iloc[i]["name"] for _, i in rating_inputs if _ > 0]
+    st.success("\ud83c\udfb6 Your Playlist:")
     for track in playlist:
         st.markdown(f"- {track}")
