@@ -32,8 +32,8 @@ colored_header("🎶 GSA-based Spotify Playlist Generator", description="Rate so
 KAGGLE_USERNAME = st.secrets["KAGGLE_USERNAME"]
 KAGGLE_KEY = st.secrets["KAGGLE_KEY"]
 
-os.makedirs(os.path.expanduser("~/"), exist_ok=True)
-kaggle_json = os.path.expanduser("~/kaggle.json")
+
+kaggle_json = "~/kaggle.json"
 
 with open(kaggle_json, "w") as f:
     f.write(f"{{\"username\": \"{KAGGLE_USERNAME}\", \"key\": \"{KAGGLE_KEY}\"}}")
