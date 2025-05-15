@@ -33,7 +33,7 @@ KAGGLE_USERNAME = st.secrets["KAGGLE_USERNAME"]
 KAGGLE_KEY = st.secrets["KAGGLE_KEY"]
 
 os.listdir()
-kaggle_json = "~/kaggle.json"
+kaggle_json = 'kaggle.json'
 
 with open(kaggle_json, "w") as f:
     f.write(f"{{\"username\": \"{KAGGLE_USERNAME}\", \"key\": \"{KAGGLE_KEY}\"}}")
