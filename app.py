@@ -32,7 +32,7 @@ colored_header("🎶 GSA-based Spotify Playlist Generator", description="Rate so
 KAGGLE_USERNAME = st.secrets["KAGGLE_USERNAME"]
 KAGGLE_KEY = st.secrets["KAGGLE_KEY"]
 
-
+os.listdir()
 kaggle_json = "~/kaggle.json"
 
 with open(kaggle_json, "w") as f:
